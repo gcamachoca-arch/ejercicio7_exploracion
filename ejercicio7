@@ -1,0 +1,106 @@
+# Declaracion de constantes
+CONSUMO_ENERGIA_ANALIZAR = 8
+CONSUMO_PROVISIONES_ANALIZAR = 0
+PUNTOS_ANALIZAR = 10
+
+CONSUMO_ENERGIA_MUESTRA = 12
+CONSUMO_PROVISIONES_MUESTRA = 2
+PUNTOS_MUESTRA = 20
+
+CONSUMO_ENERGIA_OBSERVACION = 5
+CONSUMO_PROVISIONES_OBSERVACION = 0
+PUNTOS_OBSERVACION = 8
+
+# Entrada de datos iniciales
+energia = int(input("Ingrese la energia disponible: "))
+provisiones = int(input("Ingrese las provisiones disponibles: "))
+
+# Inicializacion de variables
+puntos_cientificos = 0
+actividades_realizadas = 0
+muestras_recolectadas = 0
+explorando = True
+
+# Ciclo principal
+while explorando:
+
+    print("\n----- MENU DE EXPLORACION -----")
+    print("1. Analizar terreno")
+    print("2. Recolectar muestra")
+    print("3. Realizar observacion")
+    print("4. Finalizar exploracion")
+
+    opcion = int(input("Seleccione una actividad: "))
+
+    # Opcion 1
+    if opcion == 1:
+
+        if energia >= CONSUMO_ENERGIA_ANALIZAR and provisiones >= CONSUMO_PROVISIONES_ANALIZAR:
+
+            energia = energia - CONSUMO_ENERGIA_ANALIZAR
+            provisiones = provisiones - CONSUMO_PROVISIONES_ANALIZAR
+
+            actividades_realizadas = actividades_realizadas + 1
+            puntos_cientificos = puntos_cientificos + PUNTOS_ANALIZAR
+
+            print("Actividad realizada: Analizar terreno.")
+            print("Puntosobtenidos:", PUNTOS_ANALIZAR)
+
+        else:
+            print("Recursos insuficientes.La exploracion finaliza.")
+            explorando = False
+
+    # Opcion 2
+    elif opcion == 2:
+
+        if energia >= CONSUMO_ENERGIA_MUESTRA and provisiones >= CONSUMO_PROVISIONES_MUESTRA:
+
+            energia = energia - CONSUMO_ENERGIA_MUESTRA
+            provisiones = provisiones - CONSUMO_PROVISIONES_MUESTRA
+
+            actividades_realizadas = actividades_realizadas + 1
+            puntos_cientificos = puntos_cientificos + PUNTOS_MUESTRA
+            muestras_recolectadas = muestras_recolectadas + 1
+
+            print("Actividad realizada: Recolectar muestra.")
+            print("Puntos obtenidos:", PUNTOS_MUESTRA)
+
+        else:
+            print("Recursos insuficientes. La exploracion finaliza.")
+            explorando = False
+
+    # Opcion 3
+    elif opcion == 3:
+
+        if energia >= CONSUMO_ENERGIA_OBSERVACION and provisiones >= CONSUMO_PROVISIONES_OBSERVACION:
+
+            energia = energia - CONSUMO_ENERGIA_OBSERVACION
+            provisiones = provisiones - CONSUMO_PROVISIONES_OBSERVACION
+
+            actividades_realizadas = actividades_realizadas + 1
+            puntos_cientificos = puntos_cientificos + PUNTOS_OBSERVACION
+
+            print("Actividad realizada: Realizar observacion.")
+            print("Puntos obtenidos:", PUNTOS_OBSERVACION)
+
+        else:
+            print("Recursos insuficientes. La exploracion finaliza.")
+            explorando = False
+
+    # Opcion 4
+    elif opcion == 4:
+
+        print("Exploracion finalizada por la tripulacion.")
+        explorando = False
+
+    # Opcion no valida
+    else:
+        print("Opcion no valida. Intente nuevamente.")
+
+# Resumen final
+print("\n===== RESUMEN FINAL =====")
+print("Actividades realizadas:", actividades_realizadas)
+print("Muestras recolectadas:", muestras_recolectadas)
+print("Puntos cientificos:", puntos_cientificos)
+print("Energia restante:", energia)
+print("Provisiones restantes:", provisiones)
