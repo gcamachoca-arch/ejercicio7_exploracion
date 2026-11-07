@@ -1,0 +1,131 @@
+# Declaracion de constantes
+CONSUMO_COMBUSTIBLE_DIA = 8
+CONSUMO_OXIGENO_PERSONA = 2
+CONSUMO_ENERGIA_DIA = 5
+CONSUMO_PROVISIONES_PERSONA = 1
+
+# Entrada de datos
+tripulantes = int(input("Ingrese la cantidad de tripulantes: "))
+dias_ida = int(input("Ingrese la cantidad de dias del viaje de ida: "))
+combustible = int(input("Ingrese el combustible disponible: "))
+oxigeno = int(input("Ingrese el oxigeno disponible: "))
+energia = int(input("Ingrese la energia disponible: "))
+provisiones = int(input("Ingrese las provisiones disponibles: "))
+
+# Evaluacion inicial del combustible
+combustible_necesario = dias_ida * CONSUMO_COMBUSTIBLE_DIA
+
+if combustible >= combustible_necesario:
+
+    # CASO A: REGRESO DE LA MISION
+
+    dia_actual = 1
+    dias_completados = 0
+    regreso_exitoso = True
+
+    while dia_actual <= dias_ida and regreso_exitoso:
+
+        consumo_oxigeno_dia = tripulantes * CONSUMO_OXIGENO_PERSONA
+        consumo_provisiones_dia = tripulantes * CONSUMO_PROVISIONES_PERSONA
+
+        # Comprobar si todos los recursos son suficientes
+        if (combustible >= CONSUMO_COMBUSTIBLE_DIA and
+            oxigeno >= consumo_oxigeno_dia and
+            energia >= CONSUMO_ENERGIA_DIA and
+            provisiones >= consumo_provisiones_dia):
+
+            # Descontar consumo diario
+            combustible = combustible - CONSUMO_COMBUSTIBLE_DIA
+            oxigeno = oxigeno - consumo_oxigeno_dia
+            energia = energia - CONSUMO_ENERGIA_DIA
+            provisiones = provisiones - consumo_provisiones_dia
+
+            dias_completados = dias_completados + 1
+
+            print("Dia:", dia_actual)
+            print("Combustible restante:", combustible)
+            print("Oxigeno restante:", oxigeno)
+            print("Energia restante:", energia)
+            print("Provisiones restantes:", provisiones)
+
+            dia_actual = dia_actual + 1
+
+        else:
+            regreso_exitoso = False
+
+    # Resultado del regreso
+    if regreso_exitoso:
+
+        print("\nLa tripulacion regreso exitosamente a la Tierra.")
+        print("Dias completados:", dias_completados)
+        print("Combustible restante:", combustible)
+        print("Oxigeno restante:", oxigeno)
+        print("Energia restante:", energia)
+        print("Provisiones restantes:", provisiones)
+
+    else:
+
+        print("\nEl regreso se interrumpio en el dia:", dia_actual)
+
+        # Comprobar recursos faltantes en orden
+        consumo_oxigeno_dia = tripulantes * CONSUMO_OXIGENO_PERSONA
+        consumo_provisiones_dia = tripulantes * CONSUMO_PROVISIONES_PERSONA
+
+        if oxigeno < consumo_oxigeno_dia:
+            print("Recurso insuficiente: oxigeno")
+
+        if energia < CONSUMO_ENERGIA_DIA:
+            print("Recurso insuficiente: energia")
+
+        if provisiones < consumo_provisiones_dia:
+            print("Recurso insuficiente: provisiones")
+
+        print("La tripulacion no completo el regreso.")
+
+else:
+
+    # CASO B: TRIPULACION VARADA
+
+    print("\nLa tripulacion quedo varada en el destino.")
+
+    # Calcular dias disponibles por cada recurso
+    dias_oxigeno = oxigeno // (tripulantes * CONSUMO_OXIGENO_PERSONA)
+    dias_energia = energia // CONSUMO_ENERGIA_DIA
+    dias_provisiones = provisiones // (tripulantes * CONSUMO_PROVISIONES_PERSONA)
+
+    print("Dias por oxigeno:", dias_oxigeno)
+    print("Dias por energia:", dias_energia)
+    print("Dias por provisiones:", dias_provisiones)
+
+    # Identificar el menor numero de dias
+    min_dias = dias_oxigeno
+
+    if dias_energia < min_dias:
+        min_dias = dias_energia
+
+    if dias_provisiones < min_dias:
+        min_dias = dias_provisiones
+
+    print("Supervivencia estimada:", min_dias, "dias")
+
+    # Identificar recursos limitantes y empates
+    recursos_limitantes = ""
+
+    if dias_oxigeno == min_dias:
+        recursos_limitantes = "oxigeno"
+
+    if dias_energia == min_dias:
+
+        if recursos_limitantes != "":
+            recursos_limitantes = recursos_limitantes + ", energia"
+        else:
+            recursos_limitantes = "energia"
+
+    if dias_provisiones == min_dias:
+
+        if recursos_limitantes != "":
+            recursos_limitantes = recursos_limitantes + ", provisiones"
+        else:
+            recursos_limitantes = "provisiones"
+
+    print("Recurso(s) limitante(s):", recursos_limitantes)
